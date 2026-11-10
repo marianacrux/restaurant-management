@@ -102,7 +102,7 @@ function DashboardContent({ data }) {
 
       <Card title="Dinero recibido por método de pago">
         <BarList
-          emptyText="No hay pagos registrados en este día. El registro de pagos llega en el Día 4."
+          emptyText="No hay pagos registrados en este día."
           rows={summary.byPaymentMethod.map((r) => ({
             key: r.method,
             label: PAYMENT_METHOD[r.method],

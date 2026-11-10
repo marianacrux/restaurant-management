@@ -13,6 +13,8 @@ import styles from './NewOrderPage.module.css';
 // El punto de venta no ofrece el canal WhatsApp: esos pedidos llegan por el bot (Día 5).
 const POS_SOURCES = ['PUNTO_DE_VENTA', 'VITRINA', 'DOMICILIO'];
 
+const TYPE_ICON = { EN_LOCAL: '🍽', PARA_LLEVAR: '🥡', DOMICILIO: '🛵' };
+
 const EMPTY_FORM = {
   source: 'PUNTO_DE_VENTA',
   type: 'EN_LOCAL',
@@ -217,12 +219,30 @@ export default function NewOrderPage() {
 
           <Card title="Datos del pedido">
             <div className={styles.formGrid}>
-              <Field as="select" label="Canal de origen" value={form.source} onChange={setField('source')}>
-                {POS_SOURCES.map((s) => <option key={s} value={s}>{ORDER_SOURCE[s].label}</option>)}
-              </Field>
-              <Field as="select" label="Tipo de entrega" value={form.type} onChange={setField('type')} disabled={form.source === 'DOMICILIO'}>
-                {Object.entries(ORDER_TYPE).map(([v, label]) => <option key={v} value={v}>{label}</option>)}
-              </Field>
+              {/* Tipo de entrega como botones visibles: define si el pedido va a Domicilios. */}
+              <fieldset className={`${styles.span2} ${styles.typeGroup}`}>
+                <legend className={styles.typeLegend}>¿Cómo se entrega?</legend>
+                <div className={styles.segmented}>
+                  {Object.entries(ORDER_TYPE).map(([value, label]) => (
+                    <button
+                      type="button"
+                      key={value}
+                      className={`${styles.segment} ${form.type === value ? styles.segmentOn : ''}`}
+                      aria-pressed={form.type === value}
+                      disabled={form.source === 'DOMICILIO' && value !== 'DOMICILIO'}
+                      onClick={() => setField('type')({ target: { value } })}
+                    >
+                      {TYPE_ICON[value]} {label}
+                    </button>
+                  ))}
+                </div>
+                {isDelivery && <span className={styles.typeHint}>Aparecerá en Domicilios cuando cocina lo marque como listo.</span>}
+              </fieldset>
+              <div className={styles.span2}>
+                <Field as="select" label="Canal de origen" value={form.source} onChange={setField('source')}>
+                  {POS_SOURCES.map((s) => <option key={s} value={s}>{ORDER_SOURCE[s].label}</option>)}
+                </Field>
+              </div>
               <Field
                 label={`Nombre del cliente${needsCustomer ? '' : ' (opcional)'}`}
                 value={form.customerName}

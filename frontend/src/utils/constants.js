@@ -47,7 +47,23 @@ export const PAYMENT_STATUS = {
   PARCIAL: { label: 'Pago parcial', tone: 'info' },
   PAGADO: { label: 'Pagado', tone: 'success' },
   REEMBOLSADO: { label: 'Reembolsado', tone: 'neutral' },
+  NO_APLICA: { label: 'No aplica', tone: 'outline' },
 };
+
+export const TRANSPORT_TYPE = {
+  A_PIE: 'A pie',
+  BICICLETA: 'Bicicleta',
+  MOTOCICLETA: 'Motocicleta',
+};
+
+export const COURIER_STATUS = {
+  DISPONIBLE: { label: 'Disponible', tone: 'success' },
+  OCUPADO: { label: 'Ocupado', tone: 'warning' },
+  INACTIVO: { label: 'Inactivo', tone: 'neutral' },
+};
+
+/** Métodos cuyo pago normalmente trae número de transacción. */
+export const METHODS_WITH_REFERENCE = ['NEQUI', 'DAVIPLATA', 'TRANSFERENCIA', 'TARJETA'];
 
 export const ROLE_LABEL = {
   ADMIN: 'Administrador',

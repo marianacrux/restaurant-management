@@ -4,9 +4,11 @@ import { useResource } from '../../hooks/useResource.js';
 import { useToast } from '../../context/ToastContext.jsx';
 import { changeOrderStatus, fetchOrder } from '../../services/orders.service.js';
 import { getErrorMessage } from '../../services/api.js';
-import { Alert, Button, Card, EmptyState, Field, Loading, Modal, PageHeader } from '../../components/ui/index.jsx';
-import { OrderStatusBadge, PaymentStatusBadge, SourceBadge } from '../../components/OrderBadges.jsx';
-import { ORDER_STATUS, ORDER_TYPE, PAYMENT_METHOD, STATUS_ACTION_LABEL } from '../../utils/constants.js';
+import { Alert, Button, Card, Field, Loading, Modal, PageHeader } from '../../components/ui/index.jsx';
+import { OrderStatusBadge, SourceBadge } from '../../components/OrderBadges.jsx';
+import PaymentPanel from '../../components/PaymentPanel.jsx';
+import DeliveryPanel from '../../components/DeliveryPanel.jsx';
+import { ORDER_STATUS, ORDER_TYPE, STATUS_ACTION_LABEL } from '../../utils/constants.js';
 import { formatDateTime, formatMoney, formatTime } from '../../utils/format.js';
 import styles from './OrderDetailPage.module.css';
 
@@ -75,9 +77,6 @@ export default function OrderDetailPage() {
       />
 
       {order.status === 'CANCELADO' && <Alert>Cancelado: {order.cancelReason}</Alert>}
-      {isDelivery && order.status === 'LISTO' && !order.delivery && (
-        <Alert type="info">Pedido listo para despachar. La asignación de domiciliario se habilita en el Día 4 (módulo de domicilios).</Alert>
-      )}
 
       <div className={styles.layout}>
         <div className={styles.mainCol}>
@@ -154,37 +153,9 @@ export default function OrderDetailPage() {
             </dl>
           </Card>
 
-          <Card title="Pago">
-            <dl className={styles.info}>
-              <dt>Estado</dt>
-              <dd><PaymentStatusBadge status={order.paymentStatus} /></dd>
-              <dt>Método elegido</dt>
-              <dd>{order.paymentMethod ? PAYMENT_METHOD[order.paymentMethod] : 'Sin indicar'}</dd>
-            </dl>
-            {order.payments.length === 0 ? (
-              <p className={styles.hint}>Sin pagos registrados. El registro de pagos se habilita en el Día 4.</p>
-            ) : (
-              <ul className={styles.payments}>
-                {order.payments.map((p) => (
-                  <li key={p.id}>
-                    {PAYMENT_METHOD[p.method]} · {formatMoney(p.amount)} · {formatTime(p.createdAt)}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </Card>
+          <PaymentPanel order={order} onChange={() => reload({ silent: true })} />
 
-          {isDelivery && (
-            <Card title="Domiciliario">
-              {order.delivery ? (
-                <p className={styles.infoLine}>{order.delivery.deliveryPerson.name} · {order.delivery.deliveryPerson.phone}</p>
-              ) : (
-                <EmptyState title="Sin asignar">
-                  {order.status === 'LISTO' ? 'Listo para asignar (módulo de domicilios, Día 4).' : 'Se asigna cuando el pedido esté listo.'}
-                </EmptyState>
-              )}
-            </Card>
-          )}
+          {isDelivery && <DeliveryPanel order={order} onChange={() => reload({ silent: true })} />}
         </div>
       </div>
 

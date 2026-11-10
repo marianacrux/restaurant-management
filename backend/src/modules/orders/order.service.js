@@ -6,6 +6,7 @@ import { prisma } from '../../config/prisma.js';
 import { AppError } from '../../utils/AppError.js';
 import { getDeliveryFee } from '../settings/setting.service.js';
 import { buildOrderLines, computeTotal } from './order.pricing.js';
+import { cancelActiveDelivery } from '../deliveries/delivery.helpers.js';
 import {
   CLOSED_STATUSES,
   DELIVERY_ONLY_STATUSES,
@@ -153,6 +154,8 @@ export async function changeOrderStatus(id, { status, note, cancelReason }, user
     }
 
     await transitionOrderStatus(tx, order, status, { userId: user.id, note, cancelReason });
+    // Un pedido cancelado en camino libera a su domiciliario.
+    if (status === 'CANCELADO') await cancelActiveDelivery(tx, order.id);
   });
 
   return getOrder(id);

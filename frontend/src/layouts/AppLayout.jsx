@@ -10,10 +10,10 @@ const NAV_ITEMS = [
   { to: '/pedidos', label: 'Pedidos', icon: '☰', roles: ['ADMIN', 'CAJERO', 'COCINA'], end: true },
   { to: '/pedidos/nuevo', label: 'Nuevo pedido', icon: '＋', roles: ['ADMIN', 'CAJERO'] },
   { to: '/cocina', label: 'Cocina', icon: '♨', roles: ['ADMIN', 'CAJERO', 'COCINA'] },
+  { to: '/domicilios', label: 'Domicilios', icon: '➜', roles: ['ADMIN', 'CAJERO'] },
+  { to: '/pagos', label: 'Pagos', icon: '$', roles: ['ADMIN', 'CAJERO'] },
+  { to: '/productos', label: 'Productos', icon: '◫', roles: ['ADMIN', 'CAJERO'] },
   { to: '/entregas', label: 'Mis entregas', icon: '➜', roles: ['DOMICILIARIO'] },
-  { label: 'Productos', icon: '◫', roles: ['ADMIN'], soon: 'Día 4' },
-  { label: 'Domicilios', icon: '➜', roles: ['ADMIN', 'CAJERO'], soon: 'Día 4' },
-  { label: 'Pagos', icon: '$', roles: ['ADMIN', 'CAJERO'], soon: 'Día 4' },
   { label: 'WhatsApp', icon: '✉', roles: ['ADMIN', 'CAJERO'], soon: 'Día 5' },
   { label: 'Pantallas', icon: '▭', roles: ['ADMIN'], soon: 'Día 5' },
 ];

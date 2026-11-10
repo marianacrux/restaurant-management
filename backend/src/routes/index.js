@@ -8,6 +8,9 @@ import productRoutes from '../modules/products/product.routes.js';
 import orderRoutes from '../modules/orders/order.routes.js';
 import dashboardRoutes from '../modules/dashboard/dashboard.routes.js';
 import settingRoutes from '../modules/settings/setting.routes.js';
+import deliveryPersonRoutes from '../modules/delivery-persons/deliveryPerson.routes.js';
+import deliveryRoutes from '../modules/deliveries/delivery.routes.js';
+import paymentRoutes from '../modules/payments/payment.routes.js';
 
 const router = Router();
 
@@ -18,5 +21,8 @@ router.use('/products', productRoutes);
 router.use('/orders', orderRoutes);
 router.use('/dashboard', dashboardRoutes);
 router.use('/settings', settingRoutes);
+router.use('/delivery-persons', deliveryPersonRoutes);
+router.use('/deliveries', deliveryRoutes);
+router.use('/payments', paymentRoutes);
 
 export default router;

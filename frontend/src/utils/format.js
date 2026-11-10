@@ -26,5 +26,11 @@ export const todayLocal = () => new Date(Date.now() - 5 * 3600e3).toISOString().
 export const formatShortDay = (day) =>
   new Date(`${day}T12:00:00Z`).toLocaleDateString('es-CO', { timeZone: 'UTC', weekday: 'short', day: 'numeric' });
 
+/** Saldo y total pagado de un pedido a partir de sus pagos vigentes (solo para mostrar). */
+export function paymentBalance(order) {
+  const paid = (order.payments ?? []).filter((p) => p.status === 'PAGADO').reduce((s, p) => s + Number(p.amount), 0);
+  return { paid, balance: Math.max(0, Number(order.total) - paid) };
+}
+
 /** Resume los ítems: "2 Hamburguesa clásica, 1 Gaseosa 400 ml". */
 export const summarizeItems = (items = []) => items.map((i) => `${i.quantity} ${i.productName}`).join(', ');

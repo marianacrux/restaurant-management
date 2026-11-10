@@ -1,0 +1,108 @@
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--space-4);
+}
+
+.card {
+  display: grid;
+  gap: var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-top: 4px solid var(--color-accent);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-5);
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.number {
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.time {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.address {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.customer {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.phone {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.items {
+  margin: 0;
+  padding-left: var(--space-5);
+}
+
+.note {
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+}
+
+.collect {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-success-bg);
+}
+
+.collectDue {
+  background: var(--color-warning-bg);
+}
+
+.collectLabel {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.collectAmount {
+  font-size: 1.4rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.collectMeta {
+  display: grid;
+  gap: 4px;
+  justify-items: end;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.done {
+  margin-top: var(--space-5);
+}
+
+.doneList {
+  margin: 0;
+  padding-left: var(--space-5);
+  display: grid;
+  gap: var(--space-1);
+  color: var(--color-text-muted);
+}

@@ -36,7 +36,7 @@ export default function OrdersTable({ orders, showItems = false }) {
               <td><SourceBadge source={o.source} /></td>
               {showItems && <td className={styles.items} title={summarizeItems(o.items)}>{summarizeItems(o.items)}</td>}
               <td className={styles.num}>{formatMoney(o.total)}</td>
-              <td><PaymentStatusBadge status={o.paymentStatus} /></td>
+              <td><PaymentStatusBadge status={o.status === 'CANCELADO' && o.paymentStatus === 'PENDIENTE' ? 'NO_APLICA' : o.paymentStatus} /></td>
               <td><OrderStatusBadge status={o.status} /></td>
             </tr>
           ))}

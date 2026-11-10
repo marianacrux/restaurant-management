@@ -1,0 +1,37 @@
+.filters {
+  padding: var(--space-3) var(--space-5) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.product {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 220px;
+}
+
+.thumb,
+.thumbEmpty {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+}
+
+.thumbEmpty {
+  display: grid;
+  place-items: center;
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+}
+
+.badges {
+  display: flex;
+  gap: var(--space-1);
+  flex-wrap: wrap;
+}
+
+.retired td {
+  opacity: 0.55;
+}

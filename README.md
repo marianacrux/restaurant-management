@@ -93,6 +93,18 @@ Respuestas de error uniformes: `{ "error": "mensaje", "details": [...] }`. Los v
 | GET | `/api/dashboard/sales?from&to` | ADMIN, CAJERO | Ventas por día (por defecto, últimos 7) |
 | GET | `/api/settings` | Autenticado | Costo del domicilio y nombre del restaurante |
 
+| GET | `/api/delivery-persons` | ADMIN, CAJERO | Domiciliarios con entrega actual y entregas del día |
+| POST / PUT | `/api/delivery-persons[/:id]` | ADMIN | Registrar / editar (`active:false` = retirar) |
+| PATCH | `/api/delivery-persons/:id/availability` | ADMIN, CAJERO | DISPONIBLE ↔ INACTIVO (OCUPADO lo pone el sistema) |
+| GET | `/api/deliveries` | ADMIN, CAJERO, DOMICILIARIO | Entregas (el domiciliario solo ve las suyas) |
+| POST | `/api/deliveries/assign` | ADMIN, CAJERO | `{orderId, deliveryPersonId}`: pedido LISTO → EN_CAMINO, domiciliario → OCUPADO |
+| PATCH | `/api/deliveries/:id/status` | ADMIN, CAJERO, DOMICILIARIO | `{status:"ENTREGADO"}`: pedido → ENTREGADO, domiciliario libre |
+| GET | `/api/payments` | ADMIN, CAJERO | Filtros: `method`, `status`, `source`, `orderId`, `from`, `to` + total recaudado |
+| POST | `/api/payments` | ADMIN, CAJERO | Registrar pago (nunca supera el saldo; no en pedidos cancelados) |
+| PATCH | `/api/payments/:id` | ADMIN | `{status:"REEMBOLSADO", notes}` |
+
+**Reglas de pagos:** el estado de pago del pedido se calcula a partir de sus pagos (PENDIENTE → PARCIAL → PAGADO; REEMBOLSADO). Elegir un método al crear el pedido no registra ningún pago. La fila del pedido se bloquea (`SELECT … FOR UPDATE`) para que dos cobros simultáneos no superen el total.
+
 Cada pedido incluye `availableStatuses`: los cambios de estado que el usuario actual puede hacer (el frontend dibuja sus botones con esto).
 
 ### Ciclo de vida del pedido
@@ -114,7 +126,8 @@ Cualquier estado no final → CANCELADO (requiere motivo)
 - [x] Día 1 — estructura, Express, Prisma, conexión a BD, modelo de datos
 - [x] Día 2 — migración, seed, autenticación JWT por roles, categorías, productos, servicio central de pedidos
 - [x] Día 3 — login y navegación por rol, dashboard, pedidos (listado, detalle, nuevo), cocina con anuncios de voz
-- [ ] Día 4 — domiciliarios, entregas, pagos, gestión de productos
+- [x] Día 4 — domiciliarios, despacho y entregas, pagos y reembolsos, gestión de productos
+- [ ] Día 5 — simulador de WhatsApp y pantallas digitales
 
 ## Pantallas (frontend)
 
@@ -125,6 +138,10 @@ Cualquier estado no final → CANCELADO (requiere motivo)
 | `/pedidos` | ADMIN, CAJERO, COCINA | Listado con búsqueda y filtros (en la URL) |
 | `/pedidos/nuevo` | ADMIN, CAJERO | Punto de venta |
 | `/pedidos/:id` | ADMIN, CAJERO, COCINA | Detalle, historial y acciones según rol |
+| `/domicilios` | ADMIN, CAJERO | Despacho: listos → asignar, en camino → confirmar; estado de domiciliarios |
+| `/entregas` | DOMICILIARIO | Mis entregas (dirección, teléfono, monto a cobrar, confirmar) |
+| `/pagos` | ADMIN, CAJERO | Pendientes de cobro y pagos registrados con filtros |
+| `/productos` | ADMIN (CAJERO: solo agotado/disponible) | Catálogo, precios, menú del día, destacados |
 | `/cocina` | ADMIN, CAJERO, COCINA | Tablero de cocina a pantalla completa con anuncios de voz |
 | `/estado` | Público | Verificación Frontend → API → PostgreSQL |
 

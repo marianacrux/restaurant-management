@@ -183,6 +183,7 @@
     flex: 1;
     min-width: 0; /* permite que la barra se desplace en vez de ensanchar la página */
     overflow-x: auto;
+    scrollbar-width: none;
     gap: var(--space-1);
   }
 

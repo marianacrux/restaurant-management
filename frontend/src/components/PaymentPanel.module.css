@@ -1,0 +1,87 @@
+.summary {
+  margin: 0;
+  display: grid;
+  gap: var(--space-1);
+}
+
+.summary div {
+  display: flex;
+  justify-content: space-between;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-muted);
+}
+
+.summary dd {
+  margin: 0;
+}
+
+.balance {
+  color: var(--color-text) !important;
+  font-weight: 700;
+  padding-top: var(--space-1);
+  border-top: 1px solid var(--color-border);
+}
+
+.method {
+  margin: var(--space-3) 0;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
+
+.list {
+  list-style: none;
+  margin: 0 0 var(--space-3);
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.list li {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 0.88rem;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.ref {
+  color: var(--color-text-muted);
+}
+
+.meta {
+  font-size: 0.78rem;
+  color: var(--color-text-subtle);
+}
+
+.refunded {
+  background: var(--color-surface-muted);
+}
+
+.refunded .row strong {
+  text-decoration: line-through;
+}
+
+.form {
+  display: grid;
+  gap: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
