@@ -4,6 +4,25 @@ MVP de un sistema que centraliza los pedidos de WhatsApp, vitrina, punto de vent
 
 **Arquitectura:** monolito modular — `frontend/` (React + Vite) y `backend/` (Node.js + Express 5 + Prisma 6 + PostgreSQL 17). JavaScript en todo el proyecto.
 
+📐 [Arquitectura y decisiones](docs/ARQUITECTURA.md) · 🎬 [Guion de la demostración](docs/GUION-DEMO.md) · 🧪 [Colección Postman](docs/postman/restaurant-api.postman_collection.json)
+
+## Estado del MVP
+
+| Módulo | Estado |
+|---|---|
+| Autenticación y roles (admin, cajero, cocina, domiciliario) | ✅ Real |
+| Catálogo, categorías, agotados, menú del día | ✅ Real |
+| Pedidos centralizados (4 canales), estados, historial | ✅ Real |
+| Dashboard (ventas, canales, métodos de pago, 7 días) | ✅ Real |
+| Cocina con anuncios de voz (SpeechSynthesis del navegador) | ✅ Real |
+| Domiciliarios, despacho y confirmación de entrega | ✅ Real |
+| Pagos, saldos y reembolsos | ✅ Real (registro manual, sin pasarela) |
+| 4 pantallas digitales administrables | ✅ Real |
+| Bot de WhatsApp | 🟡 **Simulado** en la web; motor listo para WhatsApp Cloud API |
+| Tiempo real | 🟡 Refresco periódico (4–30 s); preparado para Socket.IO |
+| Promociones | 🟡 Se muestran en pantallas; falta gestión completa y aplicarlas al pedido |
+| GPS, rutas, app móvil nativa, pasarela de pagos | ⏳ Fuera del alcance del demo |
+
 ## Requisitos
 
 - Node.js ≥ 20.19 (Vite 8 lo exige)
@@ -26,8 +45,10 @@ Crea el usuario `restaurant_app` (con permiso `CREATEDB`, que Prisma necesita pa
 ```bash
 cd backend
 npm install
-npm run db:check   # verifica la conexión a PostgreSQL
-npm run dev        # http://localhost:4000/api
+npm run db:check                 # verifica la conexión a PostgreSQL
+npx prisma migrate deploy        # crea las tablas
+npm run db:seed                  # usuarios de prueba, catálogo, domiciliarios, pantallas
+npm run dev                      # http://localhost:4000/api
 ```
 
 ### 3. Frontend
@@ -49,7 +70,9 @@ En desarrollo, Vite redirige `/api` al backend (sin problemas de CORS).
 | `npm run prisma:validate` | Valida `schema.prisma` |
 | `npm run prisma:migrate` | Crea y aplica migraciones |
 | `npm run prisma:studio` | Explorador visual de la BD |
-| `npm run db:seed` | Datos iniciales |
+| `npm run db:seed` | Datos iniciales (idempotente) |
+| `npm run db:demo` | ⚠️ **Borra la base local** y la deja con datos de demostración (una semana de pedidos). Solo para desarrollo |
+| `npm run test:e2e` | Prueba de aceptación de punta a punta (52 verificaciones; requiere el backend encendido y crea datos de prueba) |
 
 ## Usuarios de prueba (creados por `npm run db:seed`)
 
@@ -136,7 +159,7 @@ Cualquier estado no final → CANCELADO (requiere motivo)
 - [x] Día 3 — login y navegación por rol, dashboard, pedidos (listado, detalle, nuevo), cocina con anuncios de voz
 - [x] Día 4 — domiciliarios, despacho y entregas, pagos y reembolsos, gestión de productos
 - [x] Día 5 — simulador de WhatsApp (bot) y 4 pantallas digitales administrables
-- [ ] Días 6-7 — integración, pruebas de punta a punta, datos de demostración y presentación
+- [x] Días 6-7 — prueba de aceptación automatizada, datos de demostración, documentación y guion
 
 ## Bot de WhatsApp (simulado)
 

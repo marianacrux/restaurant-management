@@ -81,6 +81,13 @@ export default function KitchenPage() {
 
   const byStatus = (status) => (orders ?? []).filter((o) => o.status === status);
 
+  // Repite el último anuncio; si todavía no hubo ninguno en esta sesión,
+  // lee el pedido más reciente que espera cocina (o avisa que no hay).
+  const repeat = () => {
+    const latest = byStatus('CONFIRMADO').at(-1) ?? byStatus('EN_PREPARACION').at(-1);
+    audio.repeatLast(latest ? buildAnnouncement(latest, { isNew: false }) : 'No hay pedidos pendientes en cocina');
+  };
+
   return (
     <div className={styles.page}>
       <header className={styles.header}>
@@ -98,7 +105,7 @@ export default function KitchenPage() {
               <button className={styles.ctrl} onClick={audio.toggleMute} aria-pressed={audio.muted}>
                 {audio.muted ? '🔇 Audio silenciado' : audio.speaking ? '🔊 Anunciando…' : '🔊 Audio activo'}
               </button>
-              <button className={styles.ctrl} onClick={audio.repeatLast} disabled={!audio.lastMessage || audio.muted}>
+              <button className={styles.ctrl} onClick={repeat} disabled={audio.muted} title={audio.lastMessage ?? 'Repite el pedido más reciente por preparar'}>
                 ↻ Repetir último
               </button>
             </>

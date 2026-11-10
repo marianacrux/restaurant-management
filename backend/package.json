@@ -11,7 +11,9 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate",
     "prisma:studio": "prisma studio",
-    "db:seed": "prisma db seed"
+    "db:seed": "prisma db seed",
+    "test:e2e": "node scripts/e2e-acceptance.js",
+    "db:demo": "prisma migrate reset --force && node scripts/demo-data.js"
   },
   "keywords": [],
   "author": "",

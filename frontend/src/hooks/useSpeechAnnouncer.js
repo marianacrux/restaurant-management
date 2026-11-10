@@ -148,9 +148,17 @@ export function useSpeechAnnouncer() {
     }
   }, []);
 
-  const repeatLast = useCallback(() => {
-    if (lastMessage) announce(lastMessage);
-  }, [lastMessage, announce]);
+  /**
+   * Repite el último anuncio. Si aún no hubo ninguno (p. ej. la página se acaba
+   * de abrir), usa `fallbackText` para que el botón nunca quede sin efecto.
+   */
+  const repeatLast = useCallback(
+    (fallbackText) => {
+      const text = lastMessage ?? (typeof fallbackText === 'string' ? fallbackText : null);
+      if (text) announce(text);
+    },
+    [lastMessage, announce],
+  );
 
   return { supported, enabled, muted, speaking, queueLength, lastMessage, enable, toggleMute, repeatLast, announce };
 }
