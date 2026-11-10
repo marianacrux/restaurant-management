@@ -1,0 +1,205 @@
+.shell {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-sidebar);
+  color: var(--color-sidebar-text);
+  padding: var(--space-5) var(--space-3);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 0 var(--space-2) var(--space-6);
+}
+
+.logo {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 800;
+}
+
+.brandName {
+  color: #fff;
+  font-weight: 700;
+}
+
+.brandSub {
+  font-size: 0.78rem;
+  opacity: 0.7;
+}
+
+.nav {
+  display: grid;
+  gap: 2px;
+  flex: 1;
+  align-content: start;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 9px var(--space-3);
+  border-radius: var(--radius-md);
+  color: inherit;
+  text-decoration: none;
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.link:hover:not(.disabled) {
+  background: var(--color-sidebar-active);
+  color: #fff;
+}
+
+.active {
+  background: var(--color-sidebar-active);
+  color: #fff;
+  box-shadow: inset 3px 0 0 var(--color-primary);
+}
+
+.icon {
+  width: 18px;
+  text-align: center;
+  opacity: 0.85;
+}
+
+.disabled {
+  opacity: 0.42;
+  cursor: default;
+}
+
+.soon {
+  margin-left: auto;
+  font-size: 0.68rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 0 6px;
+}
+
+.userBox {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-2) 0;
+  border-top: 1px solid var(--color-sidebar-active);
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--color-sidebar-active);
+  color: #fff;
+  font-weight: 700;
+}
+
+.userInfo {
+  min-width: 0;
+  flex: 1;
+}
+
+.userName {
+  color: #fff;
+  font-size: 0.88rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.userRole {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+.logout {
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: 1.1rem;
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.logout:hover {
+  background: var(--color-sidebar-active);
+  color: #fff;
+}
+
+.main {
+  padding: var(--space-8);
+  min-width: 0;
+}
+
+/* Tablets y móviles: el menú pasa a una barra superior desplazable. */
+@media (max-width: 900px) {
+  .shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sidebar {
+    position: sticky;
+    z-index: 50;
+    height: auto;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-2) var(--space-4);
+  }
+
+  .brand {
+    padding: 0;
+  }
+
+  .brandName,
+  .brandSub,
+  .userInfo,
+  .soon {
+    display: none;
+  }
+
+  .nav {
+    display: flex;
+    flex: 1;
+    min-width: 0; /* permite que la barra se desplace en vez de ensanchar la página */
+    overflow-x: auto;
+    gap: var(--space-1);
+  }
+
+  .link {
+    white-space: nowrap;
+  }
+
+  .disabled {
+    display: none;
+  }
+
+  .userBox {
+    border: none;
+    padding: 0;
+  }
+
+  .main {
+    padding: var(--space-4);
+  }
+}

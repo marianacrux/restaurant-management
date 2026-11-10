@@ -9,6 +9,15 @@ export const SETTING_KEYS = Object.freeze({
 
 const DEFAULT_DELIVERY_FEE = '5000';
 
+export async function getPublicSettings() {
+  const rows = await prisma.setting.findMany({ where: { key: { in: Object.values(SETTING_KEYS) } } });
+  const map = Object.fromEntries(rows.map((r) => [r.key, r.value]));
+  return {
+    deliveryFee: map.DELIVERY_FEE ?? DEFAULT_DELIVERY_FEE,
+    restaurantName: map.RESTAURANT_NAME ?? 'Restaurante',
+  };
+}
+
 /** Costo fijo del domicilio. Acepta un cliente de transacción opcional. */
 export async function getDeliveryFee(db = prisma) {
   const setting = await db.setting.findUnique({ where: { key: SETTING_KEYS.DELIVERY_FEE } });

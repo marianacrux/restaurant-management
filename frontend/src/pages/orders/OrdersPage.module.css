@@ -1,0 +1,80 @@
+.filtersBody {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+}
+
+.filters {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.search {
+  flex: 1;
+  min-width: 220px;
+  padding: 9px var(--space-3);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+}
+
+.select {
+  padding: 9px var(--space-3);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.chips {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.chip {
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.chip:hover {
+  border-color: var(--color-text-subtle);
+}
+
+.chipOn[data-tone='neutral'] { background: var(--color-neutral-bg); color: var(--color-neutral); border-color: var(--color-neutral); }
+.chipOn[data-tone='info'] { background: var(--color-info-bg); color: var(--color-info); border-color: var(--color-info); }
+.chipOn[data-tone='warning'] { background: var(--color-warning-bg); color: var(--color-warning); border-color: var(--color-warning); }
+.chipOn[data-tone='success'] { background: var(--color-success-bg); color: var(--color-success); border-color: var(--color-success); }
+.chipOn[data-tone='accent'] { background: var(--color-accent-bg); color: var(--color-accent); border-color: var(--color-accent); }
+.chipOn[data-tone='done'] { background: var(--color-done-bg); color: var(--color-done); border-color: var(--color-done); }
+.chipOn[data-tone='danger'] { background: var(--color-danger-bg); color: var(--color-danger); border-color: var(--color-danger); }
+
+.results {
+  margin-top: var(--space-4);
+}
+
+.tableBody {
+  padding: var(--space-3) 0 0;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.pageButtons {
+  display: flex;
+  gap: var(--space-2);
+}

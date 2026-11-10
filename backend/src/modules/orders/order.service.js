@@ -80,7 +80,7 @@ export async function createOrder(input, { userId = null } = {}) {
 // --------------------------------------------------------------- CONSULTAR
 
 export async function listOrders(filters) {
-  const { status, source, type, paymentStatus, from, to, search, page, pageSize } = filters;
+  const { status, source, type, paymentStatus, from, to, search, page, pageSize, sort } = filters;
 
   const where = {
     ...(status && { status: { in: status } }),
@@ -96,7 +96,7 @@ export async function listOrders(filters) {
     prisma.order.findMany({
       where,
       include: listInclude,
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: sort }, // cocina usa 'asc': primero el más antiguo
       skip: (page - 1) * pageSize,
       take: pageSize,
     }),
@@ -156,6 +156,20 @@ export async function changeOrderStatus(id, { status, note, cancelReason }, user
   });
 
   return getOrder(id);
+}
+
+/**
+ * Estados a los que `role` puede llevar el pedido desde PATCH /status.
+ * El frontend pinta sus botones con esto: las reglas viven solo en el backend.
+ */
+export function getAvailableStatuses(order, role) {
+  const roleTargets = ROLE_ALLOWED_TARGETS[role] ?? [];
+  return (STATUS_TRANSITIONS[order.status] ?? []).filter(
+    (s) =>
+      roleTargets.includes(s) &&
+      !(order.type === 'DOMICILIO' && DELIVERY_ONLY_STATUSES.includes(s)) &&
+      !(order.type !== 'DOMICILIO' && s === 'EN_CAMINO'),
+  );
 }
 
 /**

@@ -89,6 +89,11 @@ Respuestas de error uniformes: `{ "error": "mensaje", "details": [...] }`. Los v
 | PATCH | `/api/orders/:id` | ADMIN, CAJERO | Notas, dirección, método de pago elegido |
 | POST | `/api/orders/:id/items` | ADMIN, CAJERO | Agregar productos (solo PENDIENTE / CONFIRMADO) |
 | PATCH | `/api/orders/:id/status` | ADMIN, CAJERO, COCINA | Cambiar estado según rol y máquina de estados |
+| GET | `/api/dashboard/summary?date=AAAA-MM-DD` | ADMIN, CAJERO | Indicadores del día (hora de Colombia) |
+| GET | `/api/dashboard/sales?from&to` | ADMIN, CAJERO | Ventas por día (por defecto, últimos 7) |
+| GET | `/api/settings` | Autenticado | Costo del domicilio y nombre del restaurante |
+
+Cada pedido incluye `availableStatuses`: los cambios de estado que el usuario actual puede hacer (el frontend dibuja sus botones con esto).
 
 ### Ciclo de vida del pedido
 
@@ -108,4 +113,21 @@ Cualquier estado no final → CANCELADO (requiere motivo)
 
 - [x] Día 1 — estructura, Express, Prisma, conexión a BD, modelo de datos
 - [x] Día 2 — migración, seed, autenticación JWT por roles, categorías, productos, servicio central de pedidos
-- [ ] Día 3 — dashboard, listado/detalle de pedidos (frontend), cocina con audio
+- [x] Día 3 — login y navegación por rol, dashboard, pedidos (listado, detalle, nuevo), cocina con anuncios de voz
+- [ ] Día 4 — domiciliarios, entregas, pagos, gestión de productos
+
+## Pantallas (frontend)
+
+| Ruta | Roles | Descripción |
+|---|---|---|
+| `/login` | — | Inicio de sesión |
+| `/dashboard` | ADMIN, CAJERO | Indicadores del día, embudo de estados, ventas por canal / método / día |
+| `/pedidos` | ADMIN, CAJERO, COCINA | Listado con búsqueda y filtros (en la URL) |
+| `/pedidos/nuevo` | ADMIN, CAJERO | Punto de venta |
+| `/pedidos/:id` | ADMIN, CAJERO, COCINA | Detalle, historial y acciones según rol |
+| `/cocina` | ADMIN, CAJERO, COCINA | Tablero de cocina a pantalla completa con anuncios de voz |
+| `/estado` | Público | Verificación Frontend → API → PostgreSQL |
+
+**Audio de cocina:** se activa con un toque (requisito de los navegadores). Usa `SpeechSynthesis` con cola (sin superposición), tono previo, botón de repetir y silencio persistente. Funciona en Chrome, Edge y Safari.
+
+**Actualización:** por ahora con consultas periódicas (cocina 4 s, pedidos 15 s, dashboard 30 s) centralizadas en `hooks/useResource.js`; en la etapa 2 se sustituye por Socket.IO.

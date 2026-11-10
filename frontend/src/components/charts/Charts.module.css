@@ -1,0 +1,156 @@
+/* Tooltip compartido: cualquier elemento con data-tip lo muestra al pasar el cursor. */
+[data-tip] {
+  position: relative;
+}
+
+[data-tip]:hover::after {
+  content: attr(data-tip);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 6px);
+  transform: translateX(-50%);
+  background: var(--color-text);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 5px 9px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.empty {
+  margin: 0;
+  color: var(--color-text-subtle);
+  font-size: 0.9rem;
+  padding: var(--space-4) 0;
+}
+
+/* ---------- BarList ---------- */
+.barList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.barRow {
+  padding: 2px 0;
+}
+
+.barMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-size: 0.86rem;
+  margin-bottom: 5px;
+}
+
+.barLabel {
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.barValue {
+  color: var(--color-text);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.barHint {
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+.track {
+  height: 8px;
+  background: var(--color-chart-track);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.bar {
+  height: 100%;
+  background: var(--color-chart);
+  border-radius: 4px;
+  min-width: 4px;
+}
+
+/* ---------- ColumnChart ---------- */
+.figure {
+  margin: 0;
+}
+
+.columns {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  border-bottom: 1px solid var(--color-border);
+  padding-top: 22px;
+}
+
+.column {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  cursor: default;
+}
+
+.column:hover .columnBar {
+  opacity: 0.8;
+}
+
+.columnBar {
+  width: min(36px, 70%);
+  background: var(--color-chart);
+  border-radius: 4px 4px 0 0;
+}
+
+.peakLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 4px;
+  white-space: nowrap;
+}
+
+.axis {
+  display: flex;
+  gap: 2px;
+  margin-top: 6px;
+}
+
+.axis span {
+  flex: 1;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  text-transform: capitalize;
+}
+
+.tableToggle {
+  margin-top: var(--space-3);
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.tableToggle summary {
+  cursor: pointer;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--space-2);
+}
+
+.table td {
+  padding: 4px 0;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+}
