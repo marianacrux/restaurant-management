@@ -12,12 +12,17 @@ import DeliveriesPage from '../pages/deliveries/DeliveriesPage.jsx';
 import MyDeliveriesPage from '../pages/deliveries/MyDeliveriesPage.jsx';
 import PaymentsPage from '../pages/payments/PaymentsPage.jsx';
 import ProductsPage from '../pages/products/ProductsPage.jsx';
+import WhatsAppSimulatorPage from '../pages/whatsapp-simulator/WhatsAppSimulatorPage.jsx';
+import ScreensAdminPage from '../pages/screens/ScreensAdminPage.jsx';
+import DisplayScreenPage from '../pages/screens/DisplayScreenPage.jsx';
 
 export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/estado" element={<SystemStatusPage />} />
+      {/* Pantallas digitales: públicas, se abren en el navegador de cada televisor. */}
+      <Route path="/pantalla/:number" element={<DisplayScreenPage />} />
 
       {/* Cocina: pantalla completa, sin menú lateral (pensada para un monitor fijo). */}
       <Route
@@ -37,6 +42,10 @@ export default function AppRoutes() {
             <Route path="/domicilios" element={<DeliveriesPage />} />
             <Route path="/pagos" element={<PaymentsPage />} />
             <Route path="/productos" element={<ProductsPage />} />
+            <Route path="/whatsapp" element={<WhatsAppSimulatorPage />} />
+          </Route>
+          <Route element={<ProtectedRoute roles={['ADMIN']} />}>
+            <Route path="/pantallas" element={<ScreensAdminPage />} />
           </Route>
           <Route element={<ProtectedRoute roles={['ADMIN', 'CAJERO', 'COCINA']} />}>
             <Route path="/pedidos" element={<OrdersPage />} />

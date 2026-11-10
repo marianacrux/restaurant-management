@@ -14,8 +14,8 @@ const NAV_ITEMS = [
   { to: '/pagos', label: 'Pagos', icon: '$', roles: ['ADMIN', 'CAJERO'] },
   { to: '/productos', label: 'Productos', icon: '◫', roles: ['ADMIN', 'CAJERO'] },
   { to: '/entregas', label: 'Mis entregas', icon: '➜', roles: ['DOMICILIARIO'] },
-  { label: 'WhatsApp', icon: '✉', roles: ['ADMIN', 'CAJERO'], soon: 'Día 5' },
-  { label: 'Pantallas', icon: '▭', roles: ['ADMIN'], soon: 'Día 5' },
+  { to: '/whatsapp', label: 'WhatsApp (simulador)', icon: '✉', roles: ['ADMIN', 'CAJERO'] },
+  { to: '/pantallas', label: 'Pantallas', icon: '▭', roles: ['ADMIN'] },
 ];
 
 export default function AppLayout() {

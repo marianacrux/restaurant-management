@@ -1,0 +1,279 @@
+/* Pantallas para televisor: tipografía que escala con el ancho de la pantalla. */
+.screen {
+  --s-bg: #1c1410;
+  --s-surface: #2a201a;
+  --s-text: #fff7ed;
+  --s-muted: #d6c4b0;
+  --s-accent: #f97316;
+
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(circle at 20% 0%, color-mix(in srgb, var(--s-accent) 22%, transparent), transparent 55%), var(--s-bg);
+  color: var(--s-text);
+  padding: clamp(16px, 2.5vw, 48px);
+  gap: clamp(12px, 2vw, 32px);
+  font-size: clamp(14px, 1.2vw, 26px);
+  overflow: hidden;
+}
+
+/* Un tema por pantalla para distinguirlas a distancia. */
+.warm { --s-accent: #f97316; }
+.promo { --s-bg: #2a0f14; --s-surface: #3d1820; --s-accent: #f43f5e; }
+.fresh { --s-bg: #0b2324; --s-surface: #113334; --s-accent: #2dd4bf; }
+.dark { --s-bg: #121218; --s-surface: #1e1e28; --s-accent: #a78bfa; }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 2px solid color-mix(in srgb, var(--s-accent) 50%, transparent);
+  padding-bottom: clamp(8px, 1vw, 20px);
+}
+
+.brand {
+  color: var(--s-accent);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.9em;
+}
+
+.title {
+  margin: 0;
+  font-size: 2.6em;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.clock {
+  font-size: 2em;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--s-muted);
+}
+
+.grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr)); /* 4 × 2 casillas fijas: todas las páginas se ven iguales */
+  gap: clamp(12px, 1.5vw, 28px);
+  animation: fadeIn 600ms ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--s-surface);
+  border-radius: clamp(10px, 1vw, 22px);
+  overflow: hidden;
+  min-height: 0;
+  border: 1px solid color-mix(in srgb, var(--s-text) 8%, transparent);
+}
+
+.media {
+  position: relative;
+  flex: 1 1 55%;
+  min-height: 6em;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--s-accent) 14%, var(--s-surface));
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.icon {
+  font-size: 4em;
+}
+
+.body {
+  padding: 0.8em 1em 1em;
+  display: grid;
+  gap: 0.3em;
+}
+
+.name {
+  margin: 0;
+  font-size: 1.35em;
+  line-height: 1.15;
+}
+
+.description {
+  margin: 0;
+  color: var(--s-muted);
+  font-size: 0.8em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.prices {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6em;
+  margin-top: 0.2em;
+}
+
+.price {
+  font-size: 1.7em;
+  font-weight: 800;
+  color: var(--s-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.regular {
+  color: var(--s-muted);
+  text-decoration: line-through;
+  font-size: 1em;
+}
+
+.promo {
+  border: 2px solid var(--s-accent);
+}
+
+.discount {
+  position: absolute;
+  top: 0.6em;
+  right: 0.6em;
+  background: var(--s-accent);
+  color: #111;
+  font-weight: 900;
+  font-size: 1.3em;
+  padding: 0.15em 0.55em;
+  border-radius: 999px;
+}
+
+/* La opacidad se aplica a los hijos (no al contenedor) para que la etiqueta
+   "Agotado" conserve su color: un hijo no puede deshacer la opacidad del padre. */
+.soldOut .media > :not(.soldOutBadge),
+.soldOut .body {
+  filter: grayscale(1);
+  opacity: 0.45;
+}
+
+.soldOut .media {
+  background: color-mix(in srgb, var(--s-text) 6%, var(--s-surface));
+}
+
+.soldOutBadge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-8deg);
+  background: #dc2626;
+  color: #fff;
+  font-weight: 900;
+  font-size: 1.4em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.2em 0.8em;
+  border-radius: 6px;
+  filter: none;
+  opacity: 1;
+  z-index: 1;
+}
+
+.announcement {
+  grid-column: span 2;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--s-accent), color-mix(in srgb, var(--s-accent) 40%, var(--s-surface)));
+  color: #111;
+}
+
+.bgImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.35;
+}
+
+.announcementText {
+  position: relative;
+  padding: 1.5em 2em;
+}
+
+.announcementText h2 {
+  margin: 0;
+  font-size: 2.3em;
+  line-height: 1.05;
+}
+
+.announcementText p {
+  margin: 0.4em 0 0;
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  min-height: 1.5em;
+  color: var(--s-muted);
+  font-size: 0.75em;
+}
+
+.dots {
+  display: flex;
+  gap: 0.5em;
+}
+
+.dot,
+.dotOn {
+  width: 0.7em;
+  height: 0.7em;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--s-text) 25%, transparent);
+}
+
+.dotOn {
+  background: var(--s-accent);
+}
+
+.offline {
+  color: #fca5a5;
+}
+
+.hint {
+  margin-left: auto;
+  opacity: 0.5;
+}
+
+.center {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  font-size: 2em;
+  color: var(--s-muted);
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
+    grid-auto-rows: auto;
+  }
+
+  .announcement {
+    grid-column: span 2;
+  }
+}

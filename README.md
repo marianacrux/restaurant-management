@@ -103,6 +103,14 @@ Respuestas de error uniformes: `{ "error": "mensaje", "details": [...] }`. Los v
 | POST | `/api/payments` | ADMIN, CAJERO | Registrar pago (nunca supera el saldo; no en pedidos cancelados) |
 | PATCH | `/api/payments/:id` | ADMIN | `{status:"REEMBOLSADO", notes}` |
 
+| POST | `/api/whatsapp-simulator/session` | ADMIN, CAJERO | Inicia una conversación simulada (`phone` opcional) |
+| POST | `/api/whatsapp-simulator/message` | ADMIN, CAJERO | `{sessionId, text}` → respuestas del bot |
+| POST | `/api/whatsapp-simulator/confirm` | ADMIN, CAJERO | Atajo de "SI" en el paso de confirmación |
+| GET | `/api/screens/:numero/content` | **Público** | Contenido listo para el televisor (precios y disponibilidad en vivo) |
+| GET | `/api/screens` · `/api/screens/:numero/config` | ADMIN | Pantallas y su configuración |
+| PUT | `/api/screens/:numero/content` | ADMIN | Reemplaza el contenido (`items` ordenados: PRODUCTO, PROMOCION, ANUNCIO) |
+| GET | `/api/promotions` | ADMIN, CAJERO | Promociones con precio final calculado |
+
 **Reglas de pagos:** el estado de pago del pedido se calcula a partir de sus pagos (PENDIENTE → PARCIAL → PAGADO; REEMBOLSADO). Elegir un método al crear el pedido no registra ningún pago. La fila del pedido se bloquea (`SELECT … FOR UPDATE`) para que dos cobros simultáneos no superen el total.
 
 Cada pedido incluye `availableStatuses`: los cambios de estado que el usuario actual puede hacer (el frontend dibuja sus botones con esto).
@@ -127,7 +135,21 @@ Cualquier estado no final → CANCELADO (requiere motivo)
 - [x] Día 2 — migración, seed, autenticación JWT por roles, categorías, productos, servicio central de pedidos
 - [x] Día 3 — login y navegación por rol, dashboard, pedidos (listado, detalle, nuevo), cocina con anuncios de voz
 - [x] Día 4 — domiciliarios, despacho y entregas, pagos y reembolsos, gestión de productos
-- [ ] Día 5 — simulador de WhatsApp y pantallas digitales
+- [x] Día 5 — simulador de WhatsApp (bot) y 4 pantallas digitales administrables
+- [ ] Días 6-7 — integración, pruebas de punta a punta, datos de demostración y presentación
+
+## Bot de WhatsApp (simulado)
+
+> **Es un simulador.** No envía ni recibe mensajes reales de WhatsApp. No se usan automatizaciones no oficiales.
+
+- `modules/whatsapp/bot.engine.js`: máquina de estados **independiente del canal** (MENU → TIPO → NOMBRE → TELEFONO → DIRECCION → PAGO → CONFIRMAR → FINALIZADO). Recibe la sesión y el texto; devuelve el nuevo estado y las respuestas.
+- `modules/whatsapp/bot.service.js`: guarda la conversación en `ChatSession` y conecta el motor con el catálogo y con el **mismo** `createOrder` (y la misma validación) que usa el punto de venta.
+- El menú solo incluye productos disponibles; la disponibilidad se vuelve a verificar al agregar y al confirmar.
+- **Integración real (siguiente etapa):** agregar un webhook para *WhatsApp Business Platform (Cloud API)* que busque la sesión por teléfono (`channel: WHATSAPP_CLOUD`), llame a `processMessage` y envíe las respuestas con la Graph API. El motor no cambia.
+
+## Pantallas digitales
+
+Cada televisor abre `http://<servidor>:5173/pantalla/1` … `/pantalla/4` (sin iniciar sesión; doble clic = pantalla completa). Se actualizan cada 30 s y rotan páginas cada 12 s. Si se pierde la conexión siguen mostrando la última información. El contenido se administra en `/pantallas`.
 
 ## Pantallas (frontend)
 
@@ -142,6 +164,9 @@ Cualquier estado no final → CANCELADO (requiere motivo)
 | `/entregas` | DOMICILIARIO | Mis entregas (dirección, teléfono, monto a cobrar, confirmar) |
 | `/pagos` | ADMIN, CAJERO | Pendientes de cobro y pagos registrados con filtros |
 | `/productos` | ADMIN (CAJERO: solo agotado/disponible) | Catálogo, precios, menú del día, destacados |
+| `/whatsapp` | ADMIN, CAJERO | Simulador de conversación con el bot |
+| `/pantallas` | ADMIN | Administración de las 4 pantallas con vista previa |
+| `/pantalla/:numero` | Público | Vista para televisor |
 | `/cocina` | ADMIN, CAJERO, COCINA | Tablero de cocina a pantalla completa con anuncios de voz |
 | `/estado` | Público | Verificación Frontend → API → PostgreSQL |
 

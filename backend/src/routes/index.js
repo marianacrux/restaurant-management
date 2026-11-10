@@ -11,6 +11,9 @@ import settingRoutes from '../modules/settings/setting.routes.js';
 import deliveryPersonRoutes from '../modules/delivery-persons/deliveryPerson.routes.js';
 import deliveryRoutes from '../modules/deliveries/delivery.routes.js';
 import paymentRoutes from '../modules/payments/payment.routes.js';
+import whatsappSimulatorRoutes from '../modules/whatsapp/simulator.routes.js';
+import screenRoutes from '../modules/screens/screen.routes.js';
+import promotionRoutes from '../modules/screens/promotion.routes.js';
 
 const router = Router();
 
@@ -24,5 +27,8 @@ router.use('/settings', settingRoutes);
 router.use('/delivery-persons', deliveryPersonRoutes);
 router.use('/deliveries', deliveryRoutes);
 router.use('/payments', paymentRoutes);
+router.use('/whatsapp-simulator', whatsappSimulatorRoutes);
+router.use('/screens', screenRoutes);
+router.use('/promotions', promotionRoutes);
 
 export default router;
