@@ -1,0 +1,32 @@
+/* Tokens de diseño: única fuente de colores, espacios y tipografía.
+   Los componentes usan var(--...) en sus CSS Modules, nunca valores sueltos. */
+:root {
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --color-bg: #f6f5f2;
+  --color-surface: #ffffff;
+  --color-border: #e4e1da;
+  --color-text: #1f1d1a;
+  --color-text-muted: #6b665e;
+  --color-primary: #c2410c;
+  --color-primary-contrast: #ffffff;
+
+  --color-success: #15803d;
+  --color-success-bg: #dcfce7;
+  --color-danger: #b91c1c;
+  --color-danger-bg: #fee2e2;
+  --color-warning: #a16207;
+  --color-warning-bg: #fef3c7;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.06), 0 1px 3px rgb(0 0 0 / 0.08);
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+}
